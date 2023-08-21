@@ -158,12 +158,25 @@ GmDisplayPanel *
 gm_device_info_get_display_panel (GmDeviceInfo *self)
 {
   GmDisplayPanel *panel = NULL;
+  const char *path = "/var/lib/droidian/phosh-notch/halium.json";
 
   g_return_val_if_fail (GM_IS_DEVICE_INFO (self), NULL);
   g_return_val_if_fail (self->compatibles, NULL);
 
   if (self->panel)
     return self->panel;
+
+  if (g_file_test(path, G_FILE_TEST_EXISTS)) {
+    g_autofree char *file_contents = NULL;
+    gsize length;
+    if (g_file_get_contents(path, &file_contents, &length, NULL)) {
+      panel = gm_display_panel_new_from_data(file_contents, NULL);
+      if (panel) {
+        self->panel = panel;
+        return self->panel;
+      }
+    }
+  }
 
   for (int i = 0; self->compatibles[i] != NULL; i++) {
     g_autofree char *filename = g_strdup_printf ("%s.json", self->compatibles[i]);
