@@ -8,6 +8,7 @@ Build-Depends:
  libglib2.0-dev,
  libjson-glib-dev,
  meson,
+ valac,
  pkgconf,
  python3-docutils <!nodoc>,
 Standards-Version: 4.6.2
@@ -93,3 +94,17 @@ Description: documentation for the gmobile library
  glib based projects.
  .
  This package contains the HTML documentation for the gmobile library.
+
+Package: gmobile-tests
+Build-Profiles: <!noinsttest>
+Section: misc
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: "as-installed" tests for gmobile
+ gmobile is a library containing mobile related helpers for
+ glib based projects.
+ .
+ This package contains installable test programs, primarily for use with
+ autopkgtest.

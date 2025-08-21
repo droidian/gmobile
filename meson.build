@@ -1,8 +1,10 @@
-project('gmobile', 'c',
-        version: '0.2.1',
-        license: 'LGPLv2.1+',
-        meson_version: '>= 0.56.1',
-        default_options: [ 'warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11' ],
+project(
+  'gmobile',
+  'c',
+  version: '0.4.0',
+  license: 'LGPLv2.1+',
+  meson_version: '>= 0.56.1',
+  default_options: ['warning_level=1', 'buildtype=debugoptimized', 'c_std=gnu11'],
 )
 
 cc = meson.get_compiler('c')
@@ -12,9 +14,13 @@ bindir = prefix / get_option('bindir')
 datadir = prefix / get_option('datadir')
 localedir = prefix / get_option('localedir')
 libdir = prefix / get_option('libdir')
+libexecdir = prefix / get_option('libexecdir')
 pkgdatadir = datadir / meson.project_name()
 pkglibdir = libdir / meson.project_name()
 udevdir = prefix / 'lib' / 'udev'
+vapidir = datadir / 'vala' / 'vapi'
+installed_tests_metadir = datadir / 'installed-tests' / meson.project_name()
+installed_tests_execdir = libexecdir / 'installed-tests' / meson.project_name()
 
 global_c_args = ['-DGMOBILE_COMPILATION']
 
@@ -60,12 +66,15 @@ if get_option('buildtype') != 'plain'
 endif
 
 epoll_dep = dependency('epoll-shim', required: false)
-glib_dep = dependency('glib-2.0', version: '>=2.66')
-gio_dep = dependency('gio-2.0', version: '>=2.66')
-json_glib_dep = dependency('json-glib-1.0', version: '>= 1.6.2',
-                   fallback: ['json-glib', 'json_glib_dep'])
+glib_dep = dependency('glib-2.0', version: '>=2.78')
+gio_dep = dependency('gio-2.0', version: '>=2.78')
+json_glib_dep = dependency(
+  'json-glib-1.0',
+  version: '>= 1.6.2',
+  fallback: ['json-glib', 'json_glib_dep'],
+)
 
-foreach arg: test_c_args
+foreach arg : test_c_args
   if cc.has_multi_arguments(arg)
     global_c_args += arg
   endif
@@ -73,19 +82,13 @@ endforeach
 
 gnome = import('gnome')
 
-add_project_arguments(
-  global_c_args,
-  language: 'c'
-)
+add_project_arguments(global_c_args, language: 'c')
 
 config_h = configuration_data()
 config_h.set_quoted('GM_VERSION', meson.project_version())
 
 root_inc = include_directories('.')
-gm_config_h = configure_file(
-  output: 'gm-config.h',
-  configuration: config_h,
-)
+gm_config_h = configure_file(output: 'gm-config.h', configuration: config_h)
 
 subdir('data')
 subdir('src')
@@ -93,11 +96,13 @@ subdir('tests')
 subdir('examples')
 subdir('doc')
 
-summary({
+summary(
+  {
     'Examples': get_option('examples'),
     'Tests': get_option('tests'),
     'Introspection': get_option('introspection'),
-    'Docmentation': get_option('gtk_doc'),
+    'VAPI': get_option('vapi'),
+    'Documentation': get_option('gtk_doc'),
     'Manual pages': get_option('man'),
     'Hwdb': get_option('hwdb'),
   },

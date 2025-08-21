@@ -1,3 +1,86 @@
+gmobile (0.4.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * tests: Fix name of not-installed test
+  * build: Start 0.4.0 cycle
+  * tests: Sort alphabetically
+  * gm-mcc-mnc: Add MCC to ISO country code conversion.
+    We use this in Chatty, Calls and Cbd so it should move to a library.
+  * doc: Fix manpage subject.
+
+  [ Evangelos Ribeiro Tzaras ]
+  * data/hwdb: Insert empty line to indicate a new input device.
+    Fixes b1cd28b89a105b83b3b485c28f94af0b53dc6966
+  * data/hwdb: Add Fairphone 5
+  * meson: Fix typo
+
+  [ fossdd ]
+  * data: Add border radius for oneplus,enchilada
+
+  [ Bardia Moshiri ]
+  * data/hwdb: Add FuriPhone FLX1
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 21 Jun 2025 10:59:16 +0200
+
+gmobile (0.3.0) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * ci: Update shared scripts and dotfiles to a9fef9a
+  * build: Format meson files.
+  * ci: Check meson format
+  * build: Build vapi too
+  * treewide: Drop glib version conditionals. We require glib 2.78 anyway
+  * timeout: Conditionally cleanup source members.
+    We might have partially inited sources when setting up a source fails.
+    This can happen with the following changes.
+  * timeout: Pass clockid. This allows us to use the code for different
+    clock types
+  * timeout: Add wakeup timer
+  * timeout: Bubble up errors. This slightly changes the existing API/ABI as
+    gm_timeout_add_seconds_once can now return 0 but given the current users
+    that is likely o.k.
+  * example: Add wake system example
+  * build: Allow to install tests
+  * packaging: Add package for tests
+  * packaging: Add autopkgtest that runs the installed tests
+
+  [ Adam ]
+  * data/hwdb: Add pinephone 3.5mm headset play-pause button
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 07 May 2025 09:30:39 +0200
+
+gmobile (0.2.2) experimental; urgency=medium
+
+  [ Guido Günther ]
+  * packaging: Don't set gtk_doc twice
+  * doc: Link to wakeup key post.
+    It has additional details to the manpage
+  * data: Add display-panel for Furilabs FLX1.
+    This information was built from scratch to be able to actually match the
+    camera cutout and run unmodified gmobile / phosh.
+  * build: Bump glib dependency.
+    We want to use g_strv_builder_take()
+  * util: Add helper to list all known devices.
+    This makes it easier to e.g. show them in lists
+  * data/hwdb: Add Google Pixel 3a (Sargo)
+    Closes: https://gitlab.gnome.org/World/Phosh/gmobile/-/issues/12
+    Thanks to Giovanni Caligaris
+
+  [ Rafael Fontenelle ]
+  * Add GPL-3-or-later to README.md
+
+  [ Sam Day ]
+  * data/hwdb: Add Samsung Galaxy A5 wakeup keys
+
+  [ Eugene Lepshy ]
+  * data: Add display information for nothing,spacewar
+
+  [ Evangelos Ribeiro Tzaras ]
+  * data/hwdb: Add xioami-daisy
+  * data/hwdb: Add shift6mq wakeup keys
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 21 Mar 2025 18:43:07 +0100
+
 gmobile (0.2.1) experimental; urgency=medium
 
   [ Guido Günther ]
